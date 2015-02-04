@@ -1,4 +1,4 @@
-use Soa2;
+use soa::Soa2;
 
 struct DropCounter<'a> {
     count: &'a mut i32,

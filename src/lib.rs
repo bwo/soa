@@ -13,13 +13,9 @@ extern crate alloc;
 extern crate collections;
 extern crate core;
 
-pub mod soa2;
-pub mod soa3;
-pub mod soa4;
+pub mod soa;
 
 mod unadorned;
 #[cfg(test)] mod test;
 
-pub use soa2::Soa2;
-pub use soa3::Soa3;
-pub use soa4::Soa4;
+pub use soa::{Soa2,Soa3,Soa4,Soa5,Soa6,Soa7,Soa8,Soa9,Soa10,Soa11};
