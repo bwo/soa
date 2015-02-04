@@ -8,6 +8,7 @@ use core::mem;
 use core::num::Int;
 use core::ptr;
 use core::slice;
+use std::marker;
 use std::slice::SliceExt;
 use unadorned::{self, Unadorned, Extent};
 
@@ -60,6 +61,7 @@ macro_rules! gen_soa {
 
         pub struct $soazipm<'a, $($ty:'a),+> {
             $($nm: *mut $ty),+,
+            marker: marker::ContravariantLifetime<'a>,
             tot: usize,
             i: usize
         }
@@ -300,12 +302,13 @@ macro_rules! gen_soa {
 
             /// Returns a single iterator over the SoA's elements, zipped up.
             #[inline]
-            pub fn zip_iter_mut(&mut self) -> $soazipm<$($ty),+> {
+            pub fn zip_iter_mut<'a>(&'a mut self) -> $soazipm<'a, $($ty),+> {
                 unsafe {
                     $soazipm { 
                         $($nm: self.$nm.as_mut_slice(self.e.len).as_mut_ptr()),+, 
                         i: 0, 
-                        tot: self.len()
+                        tot: self.len(),
+                        marker: marker::ContravariantLifetime::<'a>
                     }
                 }
             }
